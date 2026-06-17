@@ -1,0 +1,24 @@
+name: Daily Finance News Push
+
+on:
+  schedule:
+    # 每天 UTC 时间 0:30 运行（北京时间 8:30）
+    - cron: '30 0 * * *'
+  workflow_dispatch: # 允许手动点击运行
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+    - name: Install dependencies
+      run: pip install requests feedparser
+    - name: Run Script
+      run: python main.py
+      env:
+        SC_KEY: ${{ secrets.SC_KEY }}
+        DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
