@@ -1,0 +1,17 @@
+name: daily-push
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 0 * * *'
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version:'3.10'}
+      - run: pip install requests feedparser
+      - run: python main.py
+        env:
+          SC_KEY: ${{ secrets.SC_KEY }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}__--
